@@ -132,8 +132,6 @@ async function onLoadMoreClick() {
     const { hits, totalHits } = await getImagesByQuery(savedQuery, page);
 
     totalPages = Math.ceil(totalHits / PER_PAGE);
-    console.log('page:', page);
-    console.log('totalPages: ', totalPages);
 
     galleryUl.insertAdjacentHTML('beforeend', createGallery(hits));
     lightbox.refresh();
