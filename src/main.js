@@ -33,7 +33,7 @@ const form = document.querySelector('.form');
 const searchBtn = form.querySelector('.search-button');
 
 let query = '';
-let page = 32;
+let page = 0;
 let totalPages = 0;
 
 form.addEventListener('submit', onSubmit);
@@ -48,6 +48,9 @@ async function onSubmit(event) {
     showLoader();
     clearGallery();
 
+    page = 1;
+    totalPages = 0;
+
     query = event.target.elements['search-text'].value.trim();
 
     if (!query) {
@@ -57,7 +60,7 @@ async function onSubmit(event) {
 
     localStorage.setItem(STORAGE_KEY, query);
 
-    const { hits } = await getImagesByQuery(query, page);
+    const { hits, totalHits } = await getImagesByQuery(query, page);
 
     if (!hits.length) {
       hideLoadMoreButton();
@@ -65,6 +68,8 @@ async function onSubmit(event) {
         'Sorry, there are no images matching your search query. Please try again!'
       );
     }
+
+    totalPages = Math.ceil(totalHits / PER_PAGE);
 
     galleryUl.insertAdjacentHTML('beforeend', createGallery(hits));
     lightbox.refresh();
@@ -95,7 +100,7 @@ async function onLoadMoreClick() {
   showLoader();
 
   let currentQuery = form.elements['search-text'].value.trim();
-  const savedQuery = localStorage.getItem(STORAGE_KEY);
+  let savedQuery = localStorage.getItem(STORAGE_KEY);
 
   if (currentQuery !== '' && currentQuery !== savedQuery) {
     iziToast.info({
@@ -113,15 +118,7 @@ async function onLoadMoreClick() {
     return;
   }
 
-  page++;
-
   try {
-    const { hits, totalHits } = await getImagesByQuery(savedQuery, page);
-
-    totalPages = Math.ceil(totalHits / PER_PAGE);
-    console.log('page:', page);
-    console.log('totalPages: ', totalPages);
-
     if (page >= totalPages) {
       hideLoadMoreButton();
 
@@ -129,6 +126,14 @@ async function onLoadMoreClick() {
         'We are sorry, but you have reached the end of search results!'
       );
     }
+
+    page++;
+
+    const { hits, totalHits } = await getImagesByQuery(savedQuery, page);
+
+    totalPages = Math.ceil(totalHits / PER_PAGE);
+    console.log('page:', page);
+    console.log('totalPages: ', totalPages);
 
     galleryUl.insertAdjacentHTML('beforeend', createGallery(hits));
     lightbox.refresh();
