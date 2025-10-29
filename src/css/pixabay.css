@@ -22,7 +22,7 @@ form > label {
   align-items: center;
 }
 
-form input {
+form input[type='text'] {
   outline: none;
   width: 272px;
   height: 40px;
@@ -30,6 +30,11 @@ form input {
 
   border: 1px solid gray;
   border-radius: 4px;
+
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
 }
 
 form input::placeholder {
