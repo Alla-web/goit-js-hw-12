@@ -74,7 +74,9 @@ async function onSubmit(event) {
     galleryUl.insertAdjacentHTML('beforeend', createGallery(hits));
     lightbox.refresh();
 
-    showLoadMoreButton();
+    if (page < totalPages) {
+      showLoadMoreButton();
+    }
   } catch (error) {
     iziToast.error({
       message: `${error.message ?? String(err)}`,
@@ -146,7 +148,6 @@ async function onLoadMoreClick() {
         behavior: 'smooth',
       });
     }
-
     showLoadMoreButton();
   } catch (error) {
     iziToast.info({
