@@ -76,6 +76,11 @@ async function onSubmit(event) {
 
     if (page < totalPages) {
       showLoadMoreButton();
+    } else {
+      hideLoadMoreButton();
+      throw new Error(
+        'We are sorry, but you have reached the end of search results!'
+      );
     }
   } catch (error) {
     iziToast.error({
@@ -121,19 +126,14 @@ async function onLoadMoreClick() {
   }
 
   try {
-    if (page >= totalPages) {
-      hideLoadMoreButton();
-
-      throw new Error(
-        'We are sorry, but you have reached the end of search results!'
-      );
-    }
-
     page++;
 
     const { hits, totalHits } = await getImagesByQuery(savedQuery, page);
 
     totalPages = Math.ceil(totalHits / PER_PAGE);
+
+    console.log('page: ', page);
+    console.log('totalPagest: ', totalPages);
 
     galleryUl.insertAdjacentHTML('beforeend', createGallery(hits));
     lightbox.refresh();
@@ -148,7 +148,15 @@ async function onLoadMoreClick() {
         behavior: 'smooth',
       });
     }
-    showLoadMoreButton();
+
+    if (page < totalPages) {
+      showLoadMoreButton();
+    } else {
+      hideLoadMoreButton();
+      throw new Error(
+        'We are sorry, but you have reached the end of search results!'
+      );
+    }
   } catch (error) {
     iziToast.info({
       message: `${error.message ?? String(err)}`,
