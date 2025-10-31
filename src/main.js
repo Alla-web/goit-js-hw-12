@@ -132,9 +132,6 @@ async function onLoadMoreClick() {
 
     totalPages = Math.ceil(totalHits / PER_PAGE);
 
-    console.log('page: ', page);
-    console.log('totalPagest: ', totalPages);
-
     galleryUl.insertAdjacentHTML('beforeend', createGallery(hits));
     lightbox.refresh();
 
