@@ -163,7 +163,7 @@ async function onLoadMoreClick() {
     }
   } catch (error) {
     iziToast.error({
-      message: `${error.message ?? String(err)}`,
+      message: `${error.message ?? String(error)}`,
       position: 'topCenter',
       timeout: 4000,
       backgroundColor: '#EF4040',
