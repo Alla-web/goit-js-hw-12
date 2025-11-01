@@ -78,9 +78,16 @@ async function onSubmit(event) {
       showLoadMoreButton();
     } else {
       hideLoadMoreButton();
-      throw new Error(
-        'We are sorry, but you have reached the end of search results!'
-      );
+
+      iziToast.info({
+        message: `We are sorry, but you have reached the end of search results!`,
+        position: 'topCenter',
+        timeout: 4000,
+        backgroundColor: '#009b18',
+        messageColor: 'white',
+        close: false,
+      });
+      return;
     }
   } catch (error) {
     iziToast.error({
