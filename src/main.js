@@ -162,11 +162,11 @@ async function onLoadMoreClick() {
       );
     }
   } catch (error) {
-    iziToast.info({
+    iziToast.error({
       message: `${error.message ?? String(err)}`,
       position: 'topCenter',
       timeout: 4000,
-      backgroundColor: '#55a703',
+      backgroundColor: '#EF4040',
       messageColor: 'white',
       close: false,
     });
