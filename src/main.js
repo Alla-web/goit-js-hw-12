@@ -36,6 +36,8 @@ let query = '';
 let page = 0;
 let totalPages = 0;
 
+localStorage.removeItem(STORAGE_KEY);
+
 form.addEventListener('submit', onSubmit);
 
 async function onSubmit(event) {
